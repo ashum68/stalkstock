@@ -5,32 +5,24 @@ import { getStockPrice } from './api.js';
 import { GatewayIntentBits } from 'discord.js'
 
 const client = new Discord.Client({
-    intents: [
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.GuildMessageReactions,
-        GatewayIntentBits.MessageContent,
-        GatewayIntentBits.GuildMessageTyping,
-        GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.GuildPresences,
-    ]
+    intents: [ 'Guilds' ]
 });
 
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`)
 });
 
-client.on("messageCreate", async (msg) => {
-    if (msg.content[0] === "!") {
-        const ticker = msg.content.slice(1);
-        const promise = getStockPrice(ticker);
-        const price = await promise;
-        msg.reply(String(price));
+client.on("interactionCreate", async (interaction) => {
+    if(interaction.isCommand()) {
+        if(interaction.commandName === "ping") {
+            interaction.reply({content: 'pong'});
+        }
+        if(interaction.commandName === "copycat") {
+            const msg = interaction.options.getString("text")
+            interaction.reply({ content: `${msg}`})
+        }
     }
+})
 
-});
 
 client.login(process.env.DISCORDTOKEN);
-
-
-
