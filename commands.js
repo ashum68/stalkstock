@@ -10,16 +10,12 @@ const slashReg = async () => {
         ), {
             body: [
                 new SlashCommandBuilder()
-                .setName('ping')
-                .setDescription('pong'),
-
-                new SlashCommandBuilder()
-                .setName("copycat")
-                .setDescription("repeats message back")
-                .addStringOption(option => {
+                .setName('current')
+                .setDescription('returns current price of given stock')
+                .addStringOption (option => {
                     return option
-                    .setName("text")
-                    .setDescription("your message")
+                    .setName('ticker')
+                    .setDescription('enter a ticker symbol')
                     .setRequired(true)
                 })
             ]

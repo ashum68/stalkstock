@@ -9,18 +9,17 @@ const client = new Discord.Client({
 });
 
 client.on("ready", () => {
-    console.log(`Logged in as ${client.user.tag}!`)
+    console.log(`Logged in as ${client.user.tag}!`);
 });
 
 client.on("interactionCreate", async (interaction) => {
     if(interaction.isCommand()) {
-        if(interaction.commandName === "ping") {
-            interaction.reply({content: 'pong'});
+        if (interaction.commandName === 'current') {
+            const ticker = interaction.options.getString("ticker");
+            let price = await getStockPrice(ticker);
+            interaction.reply({ content: `${price}`});
         }
-        if(interaction.commandName === "copycat") {
-            const msg = interaction.options.getString("text")
-            interaction.reply({ content: `${msg}`})
-        }
+        
     }
 })
 
